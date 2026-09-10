@@ -1,7 +1,7 @@
 public class Space {
-    private char fogOfWarIcon;
-    private char onFireIcon;
-    private char revealedIcon;
+    protected char fogOfWarIcon;
+    protected char onFireIcon;
+    protected char revealedIcon;
     private int stage;
     private boolean ableToBeOccupied;
     private int row;
@@ -105,10 +105,11 @@ public class Space {
         this.stage = stage;
     }
 
-    public Space(int row, int col) {
-        fogOfWarIcon = '~';
-        onFireIcon = '*';
-        revealedIcon = '+';
+    public Space(int row, int col, char fogOfWar, char onFire, char revealed) {
+        // "revealed" means there's nothing there. On fire means there's something there
+        fogOfWarIcon = fogOfWar;
+        onFireIcon = onFire;
+        revealedIcon = revealed;
         stage = 0;
         ableToBeOccupied = false;
         this.row = row;

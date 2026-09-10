@@ -18,11 +18,13 @@ public class Battleship {
             // aiBoard.printBoard();
             // break;
             aiBoard.printBoard();
+            playerBoard.printBoard();
             String action = human.takeAction();
             int row = human.convertLetterToNum(action.charAt(0));
             String colString = action.substring(1);
             int col = Integer.parseInt(colString) - 1;
             BattleshipGame.processHit(human, testAI, row, col);
+            testAI.takeShot();
             gameRunning = BattleshipGame.checkForWin(testAI);
         }
         // TODO: Place ships for the player

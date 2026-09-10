@@ -43,7 +43,7 @@ public class BattleshipBoard {
         for (int i = 0; i < rows; i++) {
             Space[] row = new Space[columns];
             for (int j = 0; j < columns; j++) {
-                row[j] = new Space(i, j);
+                row[j] = new EnemySpace(i, j);
             }
             board[i] = row;
         }
