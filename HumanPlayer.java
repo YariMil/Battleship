@@ -18,6 +18,7 @@ public class HumanPlayer extends Player {
                     "You are currently placing the " + ship.getName() + ", size " + ship.getSize());
             boardClass.printBoard();
             while (placingShip) {
+                System.out.println("Which coordinates do you want to place your ship?");
                 String action = getAction(true).toUpperCase();
                 int row = convertLetterToNum(action.charAt(0));
                 int colIndex = findColIndex(action);
@@ -80,7 +81,6 @@ public class HumanPlayer extends Player {
 
     public String getAction(boolean placing) {
         String verticalOrNot = "";
-        System.out.println("Which coordinates do you want to place your ship?");
         System.out.println("Enter coordinates as a single word (ex. A1 or E4): ");
         String action = input.nextLine();
         if (placing) {

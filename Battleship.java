@@ -4,25 +4,25 @@ public class Battleship {
         BattleshipBoard aiBoard = new BattleshipBoard();
         BattleshipBoard aiBoard2 = new BattleshipBoard();
         AIPlayer testAI = new AIPlayer(aiBoard, null);
-        AIPlayer testAI2 = new AIPlayer(aiBoard2, testAI);
-        // HumanPlayer human = new HumanPlayer(playerBoard, testAI);
-        testAI.setPlayer(testAI2);
-        // human.placeShips();
-        // ai.placeShips();
+        // AIPlayer testAI2 = new AIPlayer(aiBoard2, testAI);
+        HumanPlayer human = new HumanPlayer(playerBoard, testAI);
+        testAI.setPlayer(human);
+        human.placeShips();
+        testAI.placeShips();
         // aiBoard.revealAllSpots();
         boolean gameRunning = true;
         testAI.placeShips();
-        aiBoard.printBoard();
+        // aiBoard.printBoard();
         while (gameRunning) {
-            testAI2.takeShot();
-            aiBoard.printBoard();
-            // break;
+            // testAI2.takeShot();
             // aiBoard.printBoard();
-            // String action = human.takeAction();
-            // int row = human.convertLetterToNum(action.charAt(0));
-            // String colString = action.substring(1);
-            // int col = Integer.parseInt(colString) - 1;
-            // BattleshipGame.processHit(human, ai, row, col);
+            // break;
+            aiBoard.printBoard();
+            String action = human.takeAction();
+            int row = human.convertLetterToNum(action.charAt(0));
+            String colString = action.substring(1);
+            int col = Integer.parseInt(colString) - 1;
+            BattleshipGame.processHit(human, testAI, row, col);
             gameRunning = BattleshipGame.checkForWin(testAI);
         }
         // TODO: Place ships for the player
