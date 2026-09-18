@@ -8,10 +8,12 @@ public class Player {
 
     public Player(Player enemyPlayer) {
         // All players have an enemyBoard. AI also uses the enemyBoard as its friendlyBoard.
-        ships = new Ship[] {new Ship('A', 5, "Aircraft Carrier"), new Ship('B', 4, "Battleship"),
-                new Ship('C', 3, "Cruiser"), new Ship('S', 3, "Submarine"),
-                new Ship('D', 2, "Destroyer")}; // Each player starts with a carrier, a battleship,
-                                                // a cruiser, a sub, and a destroyer
+        // ships = new Ship[] {new Ship('A', 5, "Aircraft Carrier"), new Ship('B', 4, "Battleship"),
+        // new Ship('C', 3, "Cruiser"), new Ship('S', 3, "Submarine"),
+        // new Ship('D', 2, "Destroyer")}; // Each player starts with a carrier, a battleship,
+        // a cruiser, a sub, and a destroyer
+        // For testing ship placement
+        ships = new Ship[] {new Ship('A', 5, "Aircraft Carrier")};
         this.enemyPlayer = enemyPlayer;
     }
 
@@ -27,14 +29,18 @@ public class Player {
                 if (r + i < 0 || r + i >= board.length) { // Out of bounds
                     return false;
                 }
-                if (board[r + i][c].getRevealedIcon() != '+') { // Spot is occupied
+                if (board[r + i][c].getRevealedIcon() != friendlyBoard.getUnoccupiedIcon()) { // Spot
+                                                                                              // is
+                                                                                              // occupied
                     return false;
                 }
             } else {
                 if (c + i < 0 || c + i >= board[r].length) { // Out of bounds
                     return false;
                 }
-                if (board[r][c + i].getRevealedIcon() != '+') { // Spot is occupied
+                if (board[r][c + i].getRevealedIcon() != friendlyBoard.getUnoccupiedIcon()) { // Spot
+                                                                                              // is
+                                                                                              // occupied
                     return false;
                 }
             }
@@ -79,7 +85,7 @@ public class Player {
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 if (board[row][col].getRevealedIcon() == 'X') {
-                    board[row][col].setRevealedIcon('+');
+                    board[row][col].setRevealedIcon(friendlyBoard.getUnoccupiedIcon());
                 }
             }
         }
@@ -113,7 +119,8 @@ public class Player {
                     int updatedCol = initialCol + column;
                     if (validateCoords(updatedRow, updatedCol)) {
                         if (placing) {
-                            if (board[updatedRow][updatedCol].getRevealedIcon() == '+') {
+                            if (board[updatedRow][updatedCol].getRevealedIcon() == friendlyBoard
+                                    .getUnoccupiedIcon()) {
                                 board[updatedRow][updatedCol].setRevealedIcon('X');
                                 ship.addSurroundingSquare(board[updatedRow][updatedCol]);
                             }
@@ -122,7 +129,8 @@ public class Player {
                                 Ship adjacentShip =
                                         spaceHasShip(board[updatedRow][updatedCol], ship);
                                 if (adjacentShip == null) {
-                                    board[updatedRow][updatedCol].setRevealedIcon('+');
+                                    board[updatedRow][updatedCol]
+                                            .setRevealedIcon(friendlyBoard.getUnoccupiedIcon());
                                 }
                             }
                         }
@@ -222,5 +230,9 @@ public class Player {
         for (int i = 0; i < friendlyBoard.getRows(); i++) {
             System.out.println(printOneRowTwoBoards(i));
         }
+    }
+
+    public void printFriendlyBoard() {
+        friendlyBoard.printBoard();
     }
 }

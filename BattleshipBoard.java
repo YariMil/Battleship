@@ -1,6 +1,7 @@
 public class BattleshipBoard {
     private int rows;
     private int columns;
+    private char unoccupiedIcon;
 
     /**
      * @return the rows
@@ -37,6 +38,7 @@ public class BattleshipBoard {
         rows = 10;
         columns = 10;
         board = createBoard(friendly);
+        unoccupiedIcon = friendly ? 'M' : '+';
     }
 
     public Space[][] createBoard(boolean friendly) {
@@ -89,5 +91,9 @@ public class BattleshipBoard {
 
     public Space getSpace(int row, int col) {
         return board[row][col];
+    }
+
+    public char getUnoccupiedIcon() {
+        return unoccupiedIcon;
     }
 }

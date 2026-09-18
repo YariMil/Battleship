@@ -3,13 +3,13 @@ import java.util.Scanner;
 public class HumanPlayer extends Player {
     private Scanner input;
 
-
     public HumanPlayer(Player enemyPlayer) {
         // Human players have a friendlyBoard and an enemyBoard that is
         // taken from the other player. The friendlyBoard is created
         // first, then the enemyBoard is created after.
         super(enemyPlayer);
         friendlyBoard = new BattleshipBoard(true);
+        board = friendlyBoard.getBoard();
         input = new Scanner(System.in);
     }
 
