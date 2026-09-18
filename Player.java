@@ -4,6 +4,7 @@ public class Player {
     protected Space[][] board;
     protected static final char[] letterCoords = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
     protected Player enemyPlayer;
+    protected BattleshipBoard friendlyBoard;
 
     public Player(BattleshipBoard board, Player enemyPlayer) {
         ships = new Ship[] {new Ship('A', 5, "Aircraft Carrier"), new Ship('B', 4, "Battleship"),
@@ -74,7 +75,7 @@ public class Player {
 
     public void fixUpBoard() {
         // Called at the end of the random placing process
-        // Placing process leaves a bunch of '?' on the board which are supposed to be '+', so this
+        // Placing process leaves a bunch of 'X' on the board which are supposed to be '+', so this
         // fixes that
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
@@ -193,5 +194,11 @@ public class Player {
         } else {
             System.out.println("A miss... there's nothing at (" + letterRow + ", " + column + ").");
         }
+    }
+
+    public void printGameStatus() {
+        System.out.println(
+                "=== END OF TURN ===\n Friendly territory on left, enemy territory on right");
+
     }
 }

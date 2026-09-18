@@ -87,11 +87,14 @@ public class AIPlayer extends Player {
     }
 
     public String getRandomAction(Space[][] enemyBoard) {
-        int row = (int) (Math.random() * boardClass.getRows());
-        int col = (int) (Math.random() * boardClass.getColumns());
+        // Using friendlyBoard for the row and column randomization
+        // because enemyBoard is already being used for checking whether
+        // a hit is valid.
+        int row = (int) (Math.random() * friendlyBoard.getRows());
+        int col = (int) (Math.random() * friendlyBoard.getColumns());
         while (enemyBoard[row][col].getStage() != 0) {
-            row = (int) (Math.random() * boardClass.getRows());
-            col = (int) (Math.random() * boardClass.getColumns());
+            row = (int) (Math.random() * friendlyBoard.getRows());
+            col = (int) (Math.random() * friendlyBoard.getColumns());
         }
         return "" + row + col;
     }
