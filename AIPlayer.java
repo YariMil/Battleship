@@ -10,8 +10,13 @@ public class AIPlayer extends Player {
     private final String[] directions = {"N", "E", "S", "W"};
     private ArrayList<String> directionsTried;
 
-    public AIPlayer(BattleshipBoard board, Player enemyPlayer) {
-        super(board, enemyPlayer);
+    public AIPlayer(Player enemyPlayer) {
+        super(enemyPlayer);
+        // The AIs enemyBoard acts as the enemyBoard for the player. The AI
+        // doesn't actually know what its friendlyBoard contains.
+        // Unlike other players, where the enemyBoard is the board
+        // OF the enemy, this is the board FOR the enemy.
+        enemyBoard = new BattleshipBoard(false);
         this.tunnelvisioned = false;
         this.tunnelCol = 0;
         this.tunnelRow = 0;
@@ -27,13 +32,13 @@ public class AIPlayer extends Player {
         // Take the ship, randomize a position, checking if its valid, place a ship there
 
         for (Ship ship : ships) {
-            int row = (int) (Math.random() * boardClass.getRows());
-            int col = (int) (Math.random() * boardClass.getColumns());
+            int row = (int) (Math.random() * enemyBoard.getRows());
+            int col = (int) (Math.random() * enemyBoard.getColumns());
             while (!legalPlacement(ship, row, col, false)
                     && !legalPlacement(ship, row, col, true)) {
                 // While placement is illegal, reroll
-                row = (int) (Math.random() * boardClass.getRows());
-                col = (int) (Math.random() * boardClass.getColumns());
+                row = (int) (Math.random() * enemyBoard.getRows());
+                col = (int) (Math.random() * enemyBoard.getColumns());
             }
             if (legalPlacement(ship, row, col, false) && legalPlacement(ship, row, col, true)) {
                 // Flip a coin for vertical or horizontal

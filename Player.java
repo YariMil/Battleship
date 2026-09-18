@@ -1,18 +1,17 @@
 public class Player {
     protected Ship[] ships;
-    protected BattleshipBoard boardClass;
+    protected BattleshipBoard enemyBoard;
     protected Space[][] board;
     protected static final char[] letterCoords = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
     protected Player enemyPlayer;
     protected BattleshipBoard friendlyBoard;
 
-    public Player(BattleshipBoard board, Player enemyPlayer) {
+    public Player(Player enemyPlayer) {
+        // All players have an enemyBoard. AI also uses the enemyBoard as its friendlyBoard.
         ships = new Ship[] {new Ship('A', 5, "Aircraft Carrier"), new Ship('B', 4, "Battleship"),
                 new Ship('C', 3, "Cruiser"), new Ship('S', 3, "Submarine"),
                 new Ship('D', 2, "Destroyer")}; // Each player starts with a carrier, a battleship,
                                                 // a cruiser, a sub, and a destroyer
-        this.boardClass = board;
-        this.board = boardClass.getBoard();
         this.enemyPlayer = enemyPlayer;
     }
 
@@ -164,6 +163,10 @@ public class Player {
         return board;
     }
 
+    public BattleshipBoard getBattleshipBoard() {
+        return enemyBoard;
+    }
+
     public Ship identifyShip(Space space) {
         for (Ship ship : ships) {
             for (Space place : ship.getPlacement()) {
@@ -196,9 +199,28 @@ public class Player {
         }
     }
 
+    public void printEnemyBoard() {
+        enemyBoard.printBoard();
+    }
+
+    public String printOneRowTwoBoards(int row) {
+        // Printing one row of two first rows of the friendlyBoard and the enemyBoard
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < 2; i++) {
+            // Precondition: friendlyBoard and enemyBoard have the same amount of columns
+            for (int j = 0; j < friendlyBoard.getColumns(); j++) {
+                output.append(friendlyBoard.getSpace(row, j));
+            }
+            output.append(" | ");
+        }
+        return output.toString();
+    }
+
     public void printGameStatus() {
         System.out.println(
                 "=== END OF TURN ===\n Friendly territory on left, enemy territory on right");
-
+        for (int i = 0; i < friendlyBoard.getRows(); i++) {
+            System.out.println(printOneRowTwoBoards(i));
+        }
     }
 }

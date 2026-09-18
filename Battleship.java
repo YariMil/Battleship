@@ -1,31 +1,31 @@
 public class Battleship {
     public static void main(String[] args) {
-        BattleshipBoard playerBoard = new BattleshipBoard();
-        BattleshipBoard aiBoard = new BattleshipBoard();
-        BattleshipBoard aiBoard2 = new BattleshipBoard();
-        AIPlayer testAI = new AIPlayer(aiBoard, null);
-        // AIPlayer testAI2 = new AIPlayer(aiBoard2, testAI);
-        HumanPlayer human = new HumanPlayer(playerBoard, testAI);
-        testAI.setPlayer(human);
+        // BattleshipBoard playerBoard = new BattleshipBoard(false);
+        // BattleshipBoard aiBoard = new BattleshipBoard(false);
+        // BattleshipBoard aiBoard2 = new BattleshipBoard(false);
+        AIPlayer testAI = new AIPlayer(null);
+        // // AIPlayer testAI2 = new AIPlayer(aiBoard2, testAI);
+        HumanPlayer human = new HumanPlayer(testAI);
+        // testAI.setPlayer(human);
         human.placeShips();
-        testAI.placeShips();
+        // testAI.placeShips();
         // aiBoard.revealAllSpots();
-        boolean gameRunning = true;
-        testAI.placeShips();
+        boolean gameRunning = false;
+        // testAI.placeShips();
         // aiBoard.printBoard();
         while (gameRunning) {
             // testAI2.takeShot();
             // aiBoard.printBoard();
             // break;
-            aiBoard.printBoard();
-            playerBoard.printBoard();
-            String action = human.takeAction();
-            int row = human.convertLetterToNum(action.charAt(0));
-            String colString = action.substring(1);
-            int col = Integer.parseInt(colString) - 1;
-            BattleshipGame.processHit(human, testAI, row, col);
-            testAI.takeShot();
-            gameRunning = BattleshipGame.checkForWin(testAI);
+            // aiBoard.printBoard();
+            // playerBoard.printBoard();
+            // String action = human.takeAction();
+            // int row = human.convertLetterToNum(action.charAt(0));
+            // String colString = action.substring(1);
+            // int col = Integer.parseInt(colString) - 1;
+            // BattleshipGame.processHit(human, testAI, row, col);
+            // testAI.takeShot();
+            // gameRunning = BattleshipGame.checkForWin(testAI);
         }
         // TODO: Place ships for the player
         // aiBoard.printBoard();

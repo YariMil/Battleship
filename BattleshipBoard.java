@@ -32,18 +32,24 @@ public class BattleshipBoard {
 
     private Space[][] board;
 
-    public BattleshipBoard() {
+    public BattleshipBoard(boolean friendly) {
+        // Friendly boolean signifies whether we are creating the friendlyBoard or the enemyBoard.
         rows = 10;
         columns = 10;
-        board = createBoard();
+        board = createBoard(friendly);
     }
 
-    public Space[][] createBoard() {
+    public Space[][] createBoard(boolean friendly) {
         Space[][] board = new Space[rows][columns];
         for (int i = 0; i < rows; i++) {
             Space[] row = new Space[columns];
             for (int j = 0; j < columns; j++) {
-                row[j] = new EnemySpace(i, j);
+                if (friendly) {
+                    row[j] = new FriendlySpace(i, j);
+                } else {
+                    row[j] = new EnemySpace(i, j);
+                }
+
             }
             board[i] = row;
         }
@@ -79,5 +85,9 @@ public class BattleshipBoard {
                 board[row][col].setStage(2);
             }
         }
+    }
+
+    public Space getSpace(int row, int col) {
+        return board[row][col];
     }
 }

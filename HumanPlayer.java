@@ -4,19 +4,23 @@ public class HumanPlayer extends Player {
     private Scanner input;
 
 
-    public HumanPlayer(BattleshipBoard board, Player enemyPlayer) {
-        super(board, enemyPlayer);
+    public HumanPlayer(Player enemyPlayer) {
+        // Human players have a friendlyBoard and an enemyBoard that is
+        // taken from the other player. The friendlyBoard is created
+        // first, then the enemyBoard is created after.
+        super(enemyPlayer);
+        friendlyBoard = new BattleshipBoard(true);
         input = new Scanner(System.in);
     }
 
     public void placeShips() {
         System.out.println("Time to place your ships!");
-        boardClass.revealAllSpots();
+        friendlyBoard.revealAllSpots();
         for (Ship ship : ships) {
             boolean placingShip = true;
             System.out.println(
                     "You are currently placing the " + ship.getName() + ", size " + ship.getSize());
-            boardClass.printBoard();
+            friendlyBoard.printBoard();
             while (placingShip) {
                 System.out.println("Which coordinates do you want to place your ship?");
                 String action = getAction(true).toUpperCase();
@@ -29,7 +33,7 @@ public class HumanPlayer extends Player {
                     System.out.println("Your ship does not have enough space to be placed there!");
                 } else {
                     placeShip(ship, row, col, vertical);
-                    boardClass.printBoard();
+                    friendlyBoard.printBoard();
                     System.out.println(
                             "The Xs represent squares where you will be unable to place other ships.");
                     System.out.println("Are you sure this is where you want your ship (y/n)? ");
