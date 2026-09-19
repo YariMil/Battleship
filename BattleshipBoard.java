@@ -41,6 +41,31 @@ public class BattleshipBoard {
         unoccupiedIcon = friendly ? 'M' : '+';
     }
 
+    public BattleshipBoard(BattleshipBoard friendlyBoard) {
+        // Create board using friendlyBoard, copying over ship locations
+        // Used for enemyBoard
+        rows = friendlyBoard.rows;
+        columns = friendlyBoard.columns;
+        board = createBoardFromTemplate(friendlyBoard);
+        unoccupiedIcon = '+';
+    }
+
+    public Space[][] createBoardFromTemplate(BattleshipBoard friendlyBoard) {
+        // Uses the friendlyBoard to copy over any ship placements.
+        Space[][] board = new Space[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            Space[] row = new Space[columns];
+            for (int j = 0; j < columns; j++) {
+                row[j] = new EnemySpace(i, j);
+                if (friendlyBoard.getSpace(i, j).getRevealedIcon() != 'M') {
+                    row[j].setRevealedIcon(friendlyBoard.getSpace(i, j).getRevealedIcon());
+                }
+            }
+            board[i] = row;
+        }
+        return board;
+    }
+
     public Space[][] createBoard(boolean friendly) {
         Space[][] board = new Space[rows][columns];
         for (int i = 0; i < rows; i++) {
@@ -82,9 +107,19 @@ public class BattleshipBoard {
     }
 
     public void revealAllSpots() {
+        // Used for debugging and the end of the game
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 board[row][col].setStage(2);
+            }
+        }
+    }
+
+    public void coverAllSpots() {
+        // Used for debugging again
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                board[row][col].setStage(0);
             }
         }
     }

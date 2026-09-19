@@ -11,6 +11,7 @@ public class HumanPlayer extends Player {
         friendlyBoard = new BattleshipBoard(true);
         board = friendlyBoard.getBoard();
         input = new Scanner(System.in);
+        enemyBoard = null;
     }
 
     public void placeShips() {
@@ -28,7 +29,7 @@ public class HumanPlayer extends Player {
                 int colIndex = findColIndex(action);
                 String colString = action.substring(1, colIndex);
                 int col = Integer.parseInt(colString) - 1;
-                boolean vertical = convertLetterToBool(action.charAt(colIndex));
+                boolean vertical = verticalOrNot(action.charAt(colIndex));
                 if (!legalPlacement(ship, row, col, vertical)) {
                     System.out.println("Your ship does not have enough space to be placed there!");
                 } else {
@@ -58,6 +59,9 @@ public class HumanPlayer extends Player {
         }
         System.out.println("Congratulations! You have placed all your ships!");
         fixUpBoard();
+        // The enemyBoard for the AI to use is now created using the friendlyBoard to copy over
+        // ships
+        enemyBoard = new BattleshipBoard(friendlyBoard);
 
     }
 
@@ -79,7 +83,8 @@ public class HumanPlayer extends Player {
         return -1;
     }
 
-    public boolean convertLetterToBool(char letter) {
+    public boolean verticalOrNot(char letter) {
+        // Returns on whether the player has chosen to place vertical or horizontal
         return letter == 'V';
     }
 

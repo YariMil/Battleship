@@ -9,6 +9,7 @@ public class Battleship {
         // testAI.setPlayer(human);
         human.placeShips();
         human.printFriendlyBoard();
+        human.printEnemyBoard();
         // testAI.placeShips();
         // aiBoard.revealAllSpots();
         boolean gameRunning = false;

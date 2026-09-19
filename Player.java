@@ -208,6 +208,12 @@ public class Player {
     }
 
     public void printEnemyBoard() {
+        // As of 9/19, this method is only used for debugging purposes and the end of the game
+        enemyBoard.revealAllSpots();;
+        enemyBoard.printBoard();
+        // For debugging, TODO: Remove later
+        System.out.println("== WITH SPOTS COVERED ==");
+        enemyBoard.coverAllSpots();
         enemyBoard.printBoard();
     }
 
