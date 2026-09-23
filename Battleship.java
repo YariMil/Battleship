@@ -6,15 +6,21 @@ public class Battleship {
         AIPlayer testAI = new AIPlayer(null);
         // // AIPlayer testAI2 = new AIPlayer(aiBoard2, testAI);
         HumanPlayer human = new HumanPlayer(testAI);
+        testAI.placeShips();
         // testAI.setPlayer(human);
         human.placeShips();
-        human.printFriendlyBoard();
-        human.printEnemyBoard();
+        testAI.setPlayer(human);
+        assignEnemyBoards(human, testAI);
         // testAI.placeShips();
         // aiBoard.revealAllSpots();
         boolean gameRunning = false;
         // testAI.placeShips();
         // aiBoard.printBoard();
+        human.printGameStatus();
+        for (int i = 0; i < 20; i++) {
+            testAI.takeShot();
+        }
+        human.printGameStatus();
         while (gameRunning) {
             // testAI2.takeShot();
             // aiBoard.printBoard();
@@ -40,5 +46,12 @@ public class Battleship {
         // Places can be modified outside the array since they share the same memory slot, meaning
         // we can do stuff in BattleshipBoard with them and still be fine
 
+    }
+
+    public static void assignEnemyBoards(Player p1, Player p2) {
+        // Necessary for the game since the players are shooting at the other's enemyBoards.
+        BattleshipBoard p1EnemyBoard = p1.getEnemyBoard();
+        p1.setEnemyBoard(p2.getEnemyBoard());
+        p2.setEnemyBoard(p1EnemyBoard);
     }
 }

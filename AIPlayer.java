@@ -16,7 +16,7 @@ public class AIPlayer extends Player {
         // doesn't actually know what its friendlyBoard contains.
         // Unlike other players, where the enemyBoard is the board
         // OF the enemy, this is the board FOR the enemy.
-        enemyBoard = new BattleshipBoard(false);
+        friendlyBoard = new BattleshipBoard(false);
         this.tunnelvisioned = false;
         this.tunnelCol = 0;
         this.tunnelRow = 0;
@@ -24,6 +24,8 @@ public class AIPlayer extends Player {
         this.directionSwapped = false;
         directionsTried = new ArrayList<String>();
         tunnelShotsTaken = 0;
+        this.board = friendlyBoard.getBoard();
+        enemyBoard = null;
     }
 
     public void placeShips() {
@@ -32,13 +34,13 @@ public class AIPlayer extends Player {
         // Take the ship, randomize a position, checking if its valid, place a ship there
 
         for (Ship ship : ships) {
-            int row = (int) (Math.random() * enemyBoard.getRows());
-            int col = (int) (Math.random() * enemyBoard.getColumns());
+            int row = (int) (Math.random() * friendlyBoard.getRows());
+            int col = (int) (Math.random() * friendlyBoard.getColumns());
             while (!legalPlacement(ship, row, col, false)
                     && !legalPlacement(ship, row, col, true)) {
                 // While placement is illegal, reroll
-                row = (int) (Math.random() * enemyBoard.getRows());
-                col = (int) (Math.random() * enemyBoard.getColumns());
+                row = (int) (Math.random() * friendlyBoard.getRows());
+                col = (int) (Math.random() * friendlyBoard.getColumns());
             }
             if (legalPlacement(ship, row, col, false) && legalPlacement(ship, row, col, true)) {
                 // Flip a coin for vertical or horizontal
@@ -51,6 +53,7 @@ public class AIPlayer extends Player {
             }
         }
         fixUpBoard();
+        enemyBoard = new BattleshipBoard(friendlyBoard);
     }
 
     public boolean checkForPlacement(Ship ship) {
@@ -72,7 +75,7 @@ public class AIPlayer extends Player {
             int col = Integer.parseInt(action.substring(1));
             BattleshipGame.processHit(this, enemyPlayer, row, col);
         } else {
-            String action = getRandomAction(enemyPlayer.getBoard());
+            String action = getRandomAction(enemyBoard.getBoard());
             int row = Integer.parseInt(action.substring(0, 1));
             int col = Integer.parseInt(action.substring(1));
             BattleshipGame.processHit(this, enemyPlayer, row, col);
@@ -91,15 +94,12 @@ public class AIPlayer extends Player {
         }
     }
 
-    public String getRandomAction(Space[][] enemyBoard) {
-        // Using friendlyBoard for the row and column randomization
-        // because enemyBoard is already being used for checking whether
-        // a hit is valid.
-        int row = (int) (Math.random() * friendlyBoard.getRows());
-        int col = (int) (Math.random() * friendlyBoard.getColumns());
-        while (enemyBoard[row][col].getStage() != 0) {
-            row = (int) (Math.random() * friendlyBoard.getRows());
-            col = (int) (Math.random() * friendlyBoard.getColumns());
+    public String getRandomAction(Space[][] b) {
+        int row = (int) (Math.random() * enemyBoard.getRows());
+        int col = (int) (Math.random() * enemyBoard.getColumns());
+        while (b[row][col].getStage() != 0) {
+            row = (int) (Math.random() * enemyBoard.getRows());
+            col = (int) (Math.random() * enemyBoard.getColumns());
         }
         return "" + row + col;
     }

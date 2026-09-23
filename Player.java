@@ -171,11 +171,25 @@ public class Player {
         return board;
     }
 
-    public BattleshipBoard getBattleshipBoard() {
+    public BattleshipBoard getEnemyBoard() {
         return enemyBoard;
     }
 
+    public BattleshipBoard getFriendlyBoard() {
+        return friendlyBoard;
+    }
+
+    public void setEnemyBoard(BattleshipBoard enemyBoard) {
+        this.enemyBoard = enemyBoard;
+    }
+
+    public void setFriendlyBoard(BattleshipBoard friendlyBoard) {
+        this.friendlyBoard = friendlyBoard;
+    }
+
     public Ship identifyShip(Space space) {
+        // Taking the space we shot and looping through each ship's placed spots
+        // To identify which ship it is.
         for (Ship ship : ships) {
             for (Space place : ship.getPlacement()) {
                 if (place.equals(space)) {
@@ -220,12 +234,12 @@ public class Player {
     public String printOneRowTwoBoards(int row) {
         // Printing one row of two first rows of the friendlyBoard and the enemyBoard
         StringBuilder output = new StringBuilder();
-        for (int i = 0; i < 2; i++) {
-            // Precondition: friendlyBoard and enemyBoard have the same amount of columns
-            for (int j = 0; j < friendlyBoard.getColumns(); j++) {
-                output.append(friendlyBoard.getSpace(row, j));
-            }
-            output.append(" | ");
+        for (int i = 0; i < friendlyBoard.getColumns(); i++) {
+            output.append(friendlyBoard.getSpace(row, i).toString() + " ");
+        }
+        output.append(" | ");
+        for (int i = 0; i < friendlyBoard.getColumns(); i++) {
+            output.append(enemyBoard.getSpace(row, i).toString() + " ");
         }
         return output.toString();
     }

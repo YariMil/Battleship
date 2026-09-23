@@ -2,18 +2,21 @@ public class BattleshipGame {
 
     public static void processHit(Player player, Player hitPlayer, int row, int col) {
         // Grabs the grid from the BattleshipBoard
-        Space[][] actingBoard = hitPlayer.getBoard();
-        if (actingBoard[row][col].getRevealedIcon() == '+') {
-            actingBoard[row][col].setStage(2);
+        Space[][] hitBoard = player.getEnemyBoard().getBoard();
+        Space[][] mirroringBoard = hitPlayer.getFriendlyBoard().getBoard();
+        if (hitBoard[row][col].getRevealedIcon() == '+') {
+            hitBoard[row][col].setStage(2);
+            mirroringBoard[row][col].setStage(2);
             player.analyseShot(false, row, col);
         } else {
-            if (actingBoard[row][col].getStage() == 0) {
-                Ship affectedShip = hitPlayer.identifyShip(actingBoard[row][col]);
+            if (hitBoard[row][col].getStage() == 0) {
+                Ship affectedShip = hitPlayer.identifyShip(hitBoard[row][col]);
                 affectedShip.setHitPoints(affectedShip.getHitPoints() - 1);
                 if (shipSunk(affectedShip)) {
                     affectedShip.revealPlacements();
                 } else {
-                    actingBoard[row][col].setStage(1);
+                    hitBoard[row][col].setStage(1);
+                    mirroringBoard[row][col].setStage(1);
                 }
                 player.analyseShot(true, row, col);
                 if (shipSunk(affectedShip)) {
